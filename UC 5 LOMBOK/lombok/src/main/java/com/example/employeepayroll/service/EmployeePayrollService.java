@@ -6,15 +6,26 @@ import com.example.employeepayroll.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmployeePayrollService  implements IEmployeePayrollService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
+
+//    public List<EmployeePayrollDataModel> employeePayrollDataModelList =  new ArrayList<>();
+//    public List<EmployeePayrollDataModel> getEmployeePayrollDataModelList(){
+//        return employeePayrollDataModelList;
+//    }
     @Override
     public EmployeePayrollDataModel addEmployee(EmployeePayrollDto employeePayrollDto) {
+//        EmployeePayrollDataModel employeeAddData = null;
         EmployeePayrollDataModel employeeAddData = new EmployeePayrollDataModel(employeePayrollDto);
+//        employeePayrollDataModelList.add(employeeAddData);
         return employeeRepository.save(employeeAddData);
     }
 
@@ -29,35 +40,26 @@ public class EmployeePayrollService  implements IEmployeePayrollService {
             isEmployeePresent.get().setDepartment(employeePayrollDataModel.getDepartment());
             isEmployeePresent.get().setSalary((employeePayrollDataModel.getSalary()));
 
-            return employeeRepository.save(isEmployeePresent.get());
-        }
-        return null;
+            return  employeeRepository.save(isEmployeePresent.get());
+        }  return null;
     }
 
     @Override
     public EmployeePayrollDataModel deleteEmployeeById(long id) {
-        Optional<EmployeePayrollDataModel> emp = employeeRepository.findById(id);
-        if (emp.isEmpty()) {
-            log.warn("Unable to find employee for given id:-" + id);
-            throw new EmployeeException("Employee Not Found!!!");  /** Using Exception **/
-        } else {
-            employeeRepository.deleteById(id);
-            log.info("Id Number " + id + " Successfully Deleted");
+        Optional<EmployeePayrollDataModel> isEmployeePresent = employeeRepository.findById(id);
+        if (isEmployeePresent.isPresent()) {
+            employeeRepository.delete(isEmployeePresent.get());
+            return isEmployeePresent.get();
         }
         return null;
     }
 
     @Override
-    public Optional<EmployeePayrollDataModel> getEmployeeDataById(long empId) {
+    public Optional<EmployeePayrollDataModel> getEmployeeData(long empId) {
         Optional<EmployeePayrollDataModel> isEmployeePresent = employeeRepository.findById(empId);
-        if (isEmployeePresent.isEmpty()) {
-            log.warn("Unable to find employee for given id:-" + empId);
-            throw new EmployeeException("Employee Not Found!!!");
-        }
         return isEmployeePresent;
     }
 
 }
-
 
 
