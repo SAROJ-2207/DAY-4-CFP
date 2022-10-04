@@ -1,12 +1,14 @@
 package com.example.employeepayroll.model;
 
 import com.example.employeepayroll.dto.EmployeePayrollDto;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 
 @Entity
@@ -18,22 +20,17 @@ public class EmployeePayrollDataModel {
     private long employeeId;
     private String firstName;
     private String lastName;
+    private String gender;
+    private String note;
+    private String profilePic;
+    private String address;
     private String companyName;
     private long salary;
     private String department;
 
-    public EmployeePayrollDataModel(long employeeId, EmployeePayrollDto employeePayrollDto) {
-    }
-//    private String registrationData;
-//    private String updatedData;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date startDate;
 
-    public long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(long employeeId) {
-        this.employeeId = employeeId;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -49,6 +46,38 @@ public class EmployeePayrollDataModel {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCompanyName() {
@@ -75,16 +104,21 @@ public class EmployeePayrollDataModel {
         this.department = department;
     }
 
-
+    public EmployeePayrollDataModel(long employeeId, EmployeePayrollDto employeePayrollDto) {
+    }
 
     public EmployeePayrollDataModel(EmployeePayrollDto employeePayrollDto) {
             this.firstName =employeePayrollDto.getFirstName();
             this.lastName = employeePayrollDto.getLastName();
+            this.gender = employeePayrollDto.getGender();
+            this.note=employeePayrollDto.getNote();
+            this.profilePic = employeePayrollDto.getProfilePic();
+            this.address = employeePayrollDto.getAddress();
             this.companyName = employeePayrollDto.getCompanyName();
             this.salary = employeePayrollDto.getSalary();
             this.department = employeePayrollDto.getDepartment();
-//            this.registrationData = employeePayrollDto.getRegistrationDate();
-//            this.updatedData = employeePayrollDto.getUpdatedDate();
+            this.startDate = employeePayrollDto.getStartDate();
+
     }
     public EmployeePayrollDataModel() {
 
