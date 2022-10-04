@@ -44,11 +44,6 @@ public class EmployeePayrollService  implements IEmployeePayrollService {
     @Override
     public EmployeePayrollDataModel deleteEmployeeById(long id) {
         Optional<EmployeePayrollDataModel> emp = employeeRepository.findById(id);
-//        if (isEmployeePresent.isPresent()) {
-//            employeeRepository.delete(isEmployeePresent.get());
-//            return isEmployeePresent.get();
-//        }
-
         if (emp.isEmpty()) {
             log.warn("Unable to find employee for given id:-" + id);
             throw new EmployeeException("Employee Not Found!!!");  /** Using Exception **/
